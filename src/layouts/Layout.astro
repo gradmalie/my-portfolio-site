@@ -1,0 +1,203 @@
+---
+import { SEO } from 'astro-seo';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title = "Product Portfolio | Energy & Sustainability Expert",
+  description = "Product management leader with 15+ years in energy, cleantech SaaS, and trading.",
+  image = "/images/og-image.jpg",
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalURL}
+      openGraph={{
+        basic: {
+          title: title,
+          type: "website",
+          image: image,
+          url: canonicalURL,
+        },
+        optional: {
+          description: description,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        title: title,
+        description: description,
+        image: image,
+      }}
+    />
+  </head>
+  <body class="bg-neutral-50 text-neutral-900 font-sans">
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script is:inline>
+      // Intersection Observer for scroll animations
+      document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.animate-on-scroll');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-fade-in-up');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -100px 0px'
+        });
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+
+        // Active section highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navSections = document.querySelectorAll('section[id]');
+        
+        const navObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${entry.target.id}`) {
+                  link.classList.add('active');
+                }
+              });
+            }
+          });
+        }, {
+          threshold: 0.4,
+          rootMargin: '-100px 0px -300px 0px'
+        });
+
+        navSections.forEach(section => {
+          navObserver.observe(section);
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --animate-duration: 0.8s;
+    --animate-delay: 0.2s;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .nav-link.active {
+    color: theme('colors.primary.600');
+    font-weight: 500;
+  }
+
+  /* Container with consistent padding */
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding: 0 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding: 0 3rem;
+    }
+  }
+
+  /* Section styling */
+  section {
+    padding: 4rem 0;
+  }
+
+  @media (min-width: 768px) {
+    section {
+      padding: 6rem 0;
+    }
+  }
+
+  /* Button styling */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-primary {
+    background-color: theme('colors.primary.600');
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: theme('colors.primary.700');
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    border: 1px solid theme('colors.neutral.300');
+    color: theme('colors.neutral.800');
+  }
+
+  .btn-outline:hover {
+    border-color: theme('colors.primary.600');
+    color: theme('colors.primary.600');
+  }
+</style>

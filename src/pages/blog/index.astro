@@ -1,0 +1,148 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../utils/dateUtils';
+
+// Get all blog posts, excluding drafts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return !data.draft;
+});
+
+// Sort by date (newest first)
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Get unique tags
+const allTags = [...new Set(sortedPosts.flatMap(post => post.data.tags))];
+
+// SEO
+const title = "Blog | Product Management Insights";
+const description = "Thoughts on product management, energy markets, and sustainable technology.";
+---
+
+<Layout title={title} description={description}>
+  <div class="pt-24 pb-16 bg-neutral-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-8">
+          <a href="/" class="inline-flex items-center text-primary-600 hover:text-primary-700 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+          </a>
+          <h1 class="text-4xl font-bold mb-4">Blog</h1>
+          <p class="text-lg text-neutral-700">
+            Thoughts on product management, energy markets, and sustainable technology.
+          </p>
+        </div>
+        
+        <!-- Tags/Filters -->
+        <div class="flex flex-wrap gap-2 mb-12">
+          <button 
+            class="tag-filter active bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-medium" 
+            data-tag="all"
+          >
+            All
+          </button>
+          {allTags.map(tag => (
+            <button 
+              class="tag-filter bg-neutral-200 hover:bg-neutral-300 text-neutral-800 px-3 py-1 rounded-full text-sm font-medium transition-colors" 
+              data-tag={tag}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+        
+        <!-- Blog posts -->
+        <div class="grid grid-cols-1 gap-8" id="posts-container">
+          {sortedPosts.map(post => (
+            <article 
+              class="post-card bg-white shadow-sm hover:shadow-md transition-shadow rounded-lg overflow-hidden" 
+              data-tags={post.data.tags.join(',')}
+            >
+              <a href={`/blog/${post.slug}`} class="block p-6">
+                <div class="mb-3 flex items-center text-sm text-neutral-500">
+                  <span>{formatDate(post.data.pubDate)}</span>
+                  <span class="mx-2">•</span>
+                  <span>{post.data.readingTime} min read</span>
+                  
+                  {post.data.featured && (
+                    <>
+                      <span class="mx-2">•</span>
+                      <span class="text-primary-600 font-medium">Featured</span>
+                    </>
+                  )}
+                </div>
+                
+                <h2 class="text-2xl font-semibold mb-3 hover:text-primary-600 transition-colors">
+                  {post.data.title}
+                </h2>
+                
+                <p class="text-neutral-700 mb-4">
+                  {post.data.description}
+                </p>
+                
+                <div class="flex flex-wrap gap-2 mb-2">
+                  {post.data.tags.slice(0, 3).map(tag => (
+                    <span class="inline-block bg-neutral-100 rounded-full px-3 py-1 text-xs text-neutral-600">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <div class="text-primary-600 font-medium hover:text-primary-700 flex items-center">
+                  Read article
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Tag filtering
+  document.addEventListener('DOMContentLoaded', () => {
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    const postCards = document.querySelectorAll('.post-card');
+    
+    tagFilters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        // Update active state
+        tagFilters.forEach(btn => btn.classList.remove('active', 'bg-primary-600', 'text-white'));
+        tagFilters.forEach(btn => btn.classList.add('bg-neutral-200', 'text-neutral-800'));
+        
+        filter.classList.add('active', 'bg-primary-600', 'text-white');
+        filter.classList.remove('bg-neutral-200', 'text-neutral-800');
+        
+        const selectedTag = filter.getAttribute('data-tag');
+        
+        postCards.forEach(card => {
+          if (selectedTag === 'all') {
+            card.classList.remove('hidden');
+          } else {
+            const postTags = card.getAttribute('data-tags')?.split(',') || [];
+            if (postTags.includes(selectedTag)) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .tag-filter.active {
+    background-color: theme('colors.primary.600');
+    color: white;
+  }
+</style>

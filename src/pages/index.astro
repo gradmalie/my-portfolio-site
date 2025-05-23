@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Portfolio from '../components/sections/Portfolio.astro';
+import About from '../components/sections/About.astro';
+import Services from '../components/sections/Services.astro';
+import LatestInsights from '../components/sections/LatestInsights.astro';
+import Contact from '../components/sections/Contact.astro';
+
+// Get blog posts for Latest Insights section
+import { getCollection } from 'astro:content';
+const allBlogPosts = await getCollection('blog', ({ data }) => {
+  return !data.draft;
+});
+
+// Sort by publish date (newest first) and take the 3 most recent
+const latestPosts = allBlogPosts
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
+
+// Get portfolio items
+const portfolioItems = await getCollection('portfolio');
+const sortedPortfolio = portfolioItems.sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout>
+  <Hero />
+  <Portfolio portfolioItems={sortedPortfolio} />
+  <About />
+  <Services />
+  <LatestInsights posts={latestPosts} />
+  <Contact />
+</Layout>

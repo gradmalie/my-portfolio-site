@@ -1,0 +1,165 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../utils/dateUtils';
+
+// Generate all blog post routes
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+  });
+  
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// SEO metadata
+const title = `${entry.data.title} | Blog`;
+const description = entry.data.description;
+---
+
+<Layout title={title} description={description}>
+  <div class="pt-24 pb-16">
+    <div class="container mx-auto px-4">
+      <article class="max-w-3xl mx-auto">
+        <div class="mb-8">
+          <a href="/blog" class="inline-flex items-center text-primary-600 hover:text-primary-700 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Blog
+          </a>
+          
+          <div class="mb-3 flex items-center text-sm text-neutral-500">
+            <span>{formatDate(entry.data.pubDate)}</span>
+            <span class="mx-2">•</span>
+            <span>{entry.data.readingTime} min read</span>
+          </div>
+          
+          <h1 class="text-3xl md:text-4xl font-bold mb-4">{entry.data.title}</h1>
+          
+          <p class="text-lg text-neutral-700 mb-6">{entry.data.description}</p>
+          
+          <div class="flex flex-wrap gap-2 mb-8">
+            {entry.data.tags.map(tag => (
+              <span class="inline-block bg-neutral-100 rounded-full px-3 py-1 text-sm text-neutral-600">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+        
+        <div class="prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-neutral-900 prose-p:text-neutral-700 prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-700">
+          <Content />
+        </div>
+        
+        <div class="border-t border-neutral-200 mt-12 pt-8">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <a href="/blog" class="inline-flex items-center text-primary-600 hover:text-primary-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to All Articles
+            </a>
+            
+            <div class="flex items-center space-x-4">
+              <span class="text-neutral-700">Share:</span>
+              <a 
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-neutral-600 hover:text-primary-600 transition-colors"
+                aria-label="Share on LinkedIn"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                  <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
+                </svg>
+              </a>
+              <a 
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(Astro.url.href)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-neutral-600 hover:text-primary-600 transition-colors"
+                aria-label="Share on Twitter"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                  <path d="M22 5.8a8.49 8.49 0 01-2.36.64 4.13 4.13 0 001.81-2.27 8.21 8.21 0 01-2.61 1 4.1 4.1 0 00-7 3.74 11.64 11.64 0 01-8.45-4.29 4.16 4.16 0 00-.55 2.07 4.09 4.09 0 001.82 3.41 4.05 4.05 0 01-1.86-.51v.05a4.1 4.1 0 003.3 4 3.93 3.93 0 01-1.1.17 4.9 4.9 0 01-.77-.07 4.11 4.11 0 003.83 2.84A8.22 8.22 0 012 18.28a11.57 11.57 0 006.29 1.85A11.59 11.59 0 0020 8.45v-.53a8.43 8.43 0 002-2.12z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  /* Additional blog post styling */
+  .prose h2 {
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    font-size: 1.5rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+  
+  .prose ul, .prose ol {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid theme('colors.primary.300');
+    padding-left: 1rem;
+    font-style: italic;
+    color: theme('colors.neutral.700');
+    margin: 1.5rem 0;
+  }
+  
+  .prose img {
+    border-radius: 0.375rem;
+    margin: 1.5rem 0;
+  }
+  
+  .prose code {
+    background-color: theme('colors.neutral.100');
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
+  
+  .prose pre {
+    background-color: theme('colors.neutral.800');
+    color: theme('colors.neutral.100');
+    padding: 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  
+  .prose pre code {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+  }
+</style>

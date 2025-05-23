@@ -1,0 +1,154 @@
+---
+// Contact form section
+---
+
+<section id="contact" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 animate-on-scroll">
+        <h2 class="text-3xl font-bold mb-4">Get In Touch</h2>
+        <p class="text-lg text-neutral-700 max-w-2xl mx-auto">
+          Have a project in mind or want to discuss how I can help with your energy or sustainability product?
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="animate-on-scroll">
+          <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
+          
+          <p class="text-neutral-700 mb-6">
+            Feel free to reach out via the form or directly through email. I'm always interested in discussing new projects, innovative ideas, or potential collaborations.
+          </p>
+          
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <div class="bg-primary-100 p-2 rounded-full mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm text-neutral-500">Email</p>
+                <a href="mailto:ale.madaria@gmail.com" class="text-primary-600 hover:text-primary-700">
+                  ale.madaria@gmail.com
+                </a>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="bg-primary-100 p-2 rounded-full mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm text-neutral-500">Connect</p>
+                <div class="flex space-x-3 mt-1">
+                  <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" class="text-neutral-600 hover:text-primary-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                      <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
+                    </svg>
+                  </a>
+                  <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="text-neutral-600 hover:text-primary-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                      <path d="M22 5.8a8.49 8.49 0 01-2.36.64 4.13 4.13 0 001.81-2.27 8.21 8.21 0 01-2.61 1 4.1 4.1 0 00-7 3.74 11.64 11.64 0 01-8.45-4.29 4.16 4.16 0 00-.55 2.07 4.09 4.09 0 001.82 3.41 4.05 4.05 0 01-1.86-.51v.05a4.1 4.1 0 003.3 4 3.93 3.93 0 01-1.1.17 4.9 4.9 0 01-.77-.07 4.11 4.11 0 003.83 2.84A8.22 8.22 0 012 18.28a11.57 11.57 0 006.29 1.85A11.59 11.59 0 0020 8.45v-.53a8.43 8.43 0 002-2.12z"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="animate-on-scroll">
+          <form id="contact-form" class="space-y-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-neutral-700 mb-1">
+                Name
+              </label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                required 
+                class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-neutral-700 mb-1">
+                Email
+              </label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+            </div>
+            
+            <div>
+              <label for="message" class="block text-sm font-medium text-neutral-700 mb-1">
+                Message
+              </label>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows="5" 
+                required 
+                class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              ></textarea>
+            </div>
+            
+            <div>
+              <button 
+                type="submit" 
+                class="w-full btn btn-primary"
+              >
+                Send Message
+              </button>
+            </div>
+            
+            <div id="form-success" class="hidden p-4 bg-green-100 text-green-800 rounded-md">
+              Thank you! Your message has been sent successfully.
+            </div>
+            
+            <div id="form-error" class="hidden p-4 bg-red-100 text-red-800 rounded-md">
+              There was an error sending your message. Please try again.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Form validation and submission
+  document.addEventListener('DOMContentLoaded', () => {
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    const formError = document.getElementById('form-error');
+    
+    contactForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Get form values
+      const formData = new FormData(contactForm as HTMLFormElement);
+      const formValues = Object.fromEntries(formData.entries());
+      
+      // Simulate form submission (in a real app, you'd send this to a server)
+      setTimeout(() => {
+        // Simulate successful submission
+        formSuccess?.classList.remove('hidden');
+        contactForm?.reset();
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          formSuccess?.classList.add('hidden');
+        }, 5000);
+      }, 1000);
+    });
+  });
+</script>
