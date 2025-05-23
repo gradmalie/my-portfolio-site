@@ -18,7 +18,7 @@
     "astro-seo": "^0.8.3"
   },
   "devDependencies": {
-    "@stackbit/types": "^0.6.0",
-    "@stackbit/cms-git": "latest"
+    "@stackbit/types": "^0.5.1",
+    "@stackbit/cms-git": "^0.5.1"
   }
 }
