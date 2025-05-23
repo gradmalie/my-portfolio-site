@@ -3,7 +3,7 @@ import { GitContentSource } from "@stackbit/cms-git";
 
 // This config lets Netlify's Visual Editor understand your folders
 export default defineStackbitConfig({
-  stackbitVersion: "~0.6.0",
+  stackbitVersion: "~0.7.0",
   contentSources: [
     new GitContentSource({
       // All Markdown lives under /src/content
