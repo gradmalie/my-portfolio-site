@@ -10,11 +10,26 @@ export default defineConfig({
     sitemap(),
     mdx(),
   ],
+
   site: 'https://yourwebsite.com', // Replace with your domain
+
   markdown: {
     shikiConfig: {
       theme: 'github-light',
-      wrap: true
-    }
-  }
+      wrap: true,
+    },
+  },
+
+  /* --------------------------------------------------------
+     Vite dev-server options
+     --------------------------------------------------------
+     - host: true           → listen on 0.0.0.0 (required in Netlify)
+     - allowedHosts: […]   → whitelist every *.netlify.app preview URL
+  ---------------------------------------------------------------- */
+  vite: {
+    server: {
+      host: true,
+      allowedHosts: ['.netlify.app'],
+    },
+  },
 });
