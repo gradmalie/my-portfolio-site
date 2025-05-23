@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@stackbit/types": "^0.5.2",
-    "@stackbit/cms-git": "^0.5.2"
+    "@stackbit/cms-git": "^0.5.0"
   }
 }
