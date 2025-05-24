@@ -1,15 +1,25 @@
 import { defineStackbitConfig } from '@stackbit/types';
-import { GitContentSource }   from '@stackbit/cms-git';
 
+// stackbit.config.ts
 export default defineStackbitConfig({
   stackbitVersion: '~0.7.0',
 
   contentSources: [
-    new GitContentSource({
-      // the root of the git repo (leave as '.')
-      rootPath: '.',
+    {
+      /** ← tell the dev server which adapter to load */
+      type: '@stackbit/cms-git',
 
-      // files live in src/content/portfolio/*.md
+      /** ← MUST be present or you’ll get the “join undefined” crash */
+      rootPath: '.',                    // repo root
+
+      /** optional, but keeps images tidy */
+      assets: {
+        referenceType: 'relative',
+        uploadDir:   'public/images/portfolio',
+        publicPath:  '/images/portfolio',
+      },
+
+      /** describe the markdown collection that lives under src/content/ */
       models: [
         {
           name:  'portfolio',
@@ -20,11 +30,10 @@ export default defineStackbitConfig({
             { name: 'description', type: 'text'   },
             { name: 'url',         type: 'string' },
             { name: 'personas',    type: 'list',  items: { type: 'string' } },
-            { name: 'image',       type: 'image',
-              assetPath: 'public/images/portfolio' },
+            { name: 'image',       type: 'image' },
           ],
         },
       ],
-    }),
+    },
   ],
 });
