@@ -8,7 +8,7 @@
     "dev":      "astro dev",
     "build":    "astro build",
     "preview":  "astro preview",
-    "stackbit": "stackbit dev"      // local Visual-Editor preview
+    "stackbit": "stackbit dev"
   },
 
   "dependencies": {
