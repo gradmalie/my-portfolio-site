@@ -21,7 +21,7 @@
   },
 
   "devDependencies": {
-    "@stackbit/types"  : "0.7.16",
-    "@stackbit/cms-git": "0.4.4"
+  "@stackbit/types": "0.10.19",
+  "@stackbit/cms-git": "0.10.19"
   }
 }
