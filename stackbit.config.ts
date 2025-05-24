@@ -3,7 +3,7 @@ const { defineStackbitConfig } = require('@stackbit/types');
 const { GitContentSource }    = require('@stackbit/cms-git');
 
 module.exports = defineStackbitConfig({
-  stackbitVersion: '~0.7.0',
+  stackbitVersion: "~0.10.0",
 
   contentSources: [
     new GitContentSource({
