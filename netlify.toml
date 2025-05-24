@@ -1,0 +1,11 @@
+# netlify.toml  ─ minimal config to ensure the Visual Editor plugin
+#                installs its dependencies in the same tree as your build
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[plugins]]
+  # Always keep the plugin version in sync with Netlify's latest release.
+  package = "@netlify/plugin-visual-editor"
+  # 1.4.1 is the current latest (May 2025)
