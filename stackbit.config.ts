@@ -1,25 +1,32 @@
-// stackbit.config.js   –  SDK 0.7-compatible
-const { defineStackbitConfig } = require('@stackbit/types');
-const { GitContentSource }    = require('@stackbit/cms-git');
+// stackbit.config.ts
+import { defineStackbitConfig } from '@stackbit/types';
+import { GitContentSource }   from '@stackbit/cms-git';
 
-module.exports = defineStackbitConfig({
-  stackbitVersion: "~0.10.0",
+export default defineStackbitConfig({
+  stackbitVersion: '~1.0.0',        // ← NEW major version line
 
   contentSources: [
     new GitContentSource({
-      rootPath: 'src/content',          // where your markdown lives
+      rootPath: '.',                // keep project-root
+
+      assets: {
+        referenceType: 'relative',
+        uploadDir:  'public/images/portfolio',
+        publicPath: '/images/portfolio'
+      },
 
       models: [
         {
           name:  'portfolio',
-          path:  '.',                   // the .md files are directly inside /src/content/portfolio/
+          path:  'src/content/portfolio',   // folder with your .md files
           match: '*.md',
+
           fields: [
             { name: 'title',       type: 'string' },
             { name: 'description', type: 'text'   },
             { name: 'url',         type: 'string' },
             { name: 'personas',    type: 'list',  items: { type: 'string' } },
-            { name: 'image',       type: 'image', assetPath: 'public/images/portfolio' }
+            { name: 'image',       type: 'image' }
           ]
         }
       ]
